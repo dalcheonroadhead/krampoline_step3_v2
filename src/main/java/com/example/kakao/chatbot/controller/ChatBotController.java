@@ -18,7 +18,7 @@ public class ChatBotController {
 
     @PostMapping("/talk")
     public ResponseEntity<String> letsTalk(@RequestBody UserRequest userRequest){
-        return ResponseEntity.ok(chatGPTService.Prompt(userRequest.getQuestion()));
+        return ResponseEntity.ok(chatGPTService.Prompt(userRequest.getQuestion(),userRequest.getLang_code()));
     }
 
 

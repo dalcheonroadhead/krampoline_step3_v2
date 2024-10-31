@@ -23,9 +23,11 @@ public class ChatGPTService {
     @Value("${openai.api.url}")
     private String url;
 
-    public String Prompt(String prompt) {
+    public String Prompt(String prompt, String language) {
         // 1. 헤더 만들기
         HttpHeaders headers = chatGPTConfig.httpHeaders();  // 필요한 헤더 구성 (e.g. Authorization)
+
+        prompt += "lang_code: " + language;
 
         // 2. 요청 객체 생성
         ChatRequest chatRequest = new ChatRequest(model, prompt);

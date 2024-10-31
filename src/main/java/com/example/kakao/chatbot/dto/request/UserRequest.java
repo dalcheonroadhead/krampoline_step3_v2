@@ -8,4 +8,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class UserRequest {
     private String question;
+    private String lang_code;
 }
