@@ -38,4 +38,4 @@ openai:
   model: gpt-3.5-turbo
   api:
     url: https://api.openai.com/v1/chat/completions
-    key: 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
+    key: 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
