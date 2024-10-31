@@ -30,136 +30,572 @@ public class ChatGPTService {
         // 1. 헤더 만들기
         HttpHeaders headers = chatGPTConfig.httpHeaders();  // 필요한 헤더 구성 (e.g. Authorization)
 
-        // 제주도 방언 고정 응답 설정
-        switch (prompt) {
-            case "안녕하세요":
-                return "혼저옵서예";
-            case "감사합니다":
-                return "고맙수다";
-            case "어디 가세요?":
-                return "어디 감수과?";
-            case "맛있어요":
-                return "맛지다";
-            case "좋아요":
-                return "조으다";
-            case "싫어요":
-                return "망츠럽다";
-            case "잘 지내세요":
-                return "잘 지내수다";
-            case "무엇을 하고 있나요?":
-                return "뭣 하난고예?";
-            case "아주 좋아요":
-                return "혼저 조으다";
-            case "도와주세요":
-                return "도와줍서";
-            case "재미있어요":
-                return "재미지다";
-            case "이거 뭐에요?":
-                return "이거 뭐라우꽈?";
-            case "괜찮아요":
-                return "괜챃수다";
-            case "피곤해요":
-                return "피곤하우다";
-            case "졸려요":
-                return "졸립수다";
-            case "배고파요":
-                return "배곱다";
-            case "목말라요":
-                return "목마름수다";
-            case "덥네요":
-                return "덥수다";
-            case "춥네요":
-                return "춥수다";
-            case "내일 봐요":
-                return "내일 봅서";
-            case "기다려주세요":
-                return "기다려줍서";
-            case "오랜만이에요":
-                return "오랜만이우다";
-            case "행복하세요":
-                return "행복하수다";
-            case "오늘 날씨 좋네요":
-                return "오늘 날씨 조우다";
-            case "천천히 하세요":
-                return "느릿느릿 하수다";
-            case "빠르게 해주세요":
-                return "빨리 하수다";
-            case "조심하세요":
-                return "조심하수다";
-            case "즐겁게 지내세요":
-                return "즐겁게 지내수다";
-            case "사랑해요":
-                return "사랑하우다";
-            case "축하합니다":
-                return "축하드립수다";
-            case "힘내세요":
-                return "힘내수다";
-            case "잘 하세요":
-                return "잘 하수다";
-            case "여기 앉으세요":
-                return "여기 앉아줍서";
-            case "어떻게 지내세요?":
-                return "어떵 지내우꽈?";
-            case "잘 했어요":
-                return "잘 헸수다";
-            case "배부르네요":
-                return "배불름수다";
-            case "시작해요":
-                return "시작합서";
-            case "끝났어요":
-                return "끝났수다";
-            case "어디에 있나요?":
-                return "어디 있수과?";
-            case "어서 오세요":
-                return "혼저 옵서";
-            case "가세요":
-                return "가줍서";
-            case "이해했어요":
-                return "이해햄수다";
-            case "알겠어요":
-                return "알아들었수다";
-            case "이름이 뭐에요?":
-                return "이름이 뭐우꽈?";
-            case "몇 시에요?":
-                return "몇 시우꽈?";
-            case "화이팅":
-                return "홧팅하수다";
-            case "고맙습니다":
-                return "감사하우다";
-            case "내일 만나요":
-                return "내일 만납서";
-            case "잘 자요":
-                return "잘 자우다";
-            case "꿈 꾸세요":
-                return "꿈 꾸수다";
-            default:
-                // 지정된 고정 응답 외의 경우, 기존 로직 수행
-                break;
-        }
-
-
         // 대화 메시지 리스트 생성
         List<ChatMessage> messages = new ArrayList<>();
-        messages.add(new ChatMessage("system", "You are a translation expert that processes inputs based on a specified language code and translates them accordingly. Your main task is as follows:- If the input includes `lang_code: ko`, first translate the given text into Jeju dialect. Respond only with the Jeju dialect translation. - If the input includes `lang_code: cn`, translate the given text into Chinese. Respond with the Chinese translation. - If the input includes `lang_code: ne`, translate the given text into Nepali. Respond with the Nepali translation."));
+        messages.add(new ChatMessage("system", "You are an assistant trained to translate common Korean phrases into the Jeju dialect and other languages when requested. Below are some common phrases and their translations."));
 
-        // 언어 코드에 따라 프롬프트를 적절히 설정
+        // `assistant` 역할을 활용해 고정된 예제 추가
+        messages.add(new ChatMessage("assistant", "안녕하세요 -> 혼저옵서예"));
+        messages.add(new ChatMessage("assistant", "감사합니다 -> 고맙수다"));
+        messages.add(new ChatMessage("assistant", "미안합니다 -> 죄송하우다"));
+        messages.add(new ChatMessage("assistant", "어디 가세요? -> 어드레 감수과?"));
+        messages.add(new ChatMessage("assistant", "이름이 뭐예요? -> 농 이름 뭐꽈?"));
+        messages.add(new ChatMessage("assistant", "잘 지내세요? -> 잘 지내수과?"));
+        messages.add(new ChatMessage("assistant", "몇 살이에요? -> 몇 살이우꽈?"));
+        messages.add(new ChatMessage("assistant", "맛있어요 -> 맛조수다"));
+        messages.add(new ChatMessage("assistant", "좋아요 -> 조쿠다"));
+        messages.add(new ChatMessage("assistant", "싫어요 -> 싫수다"));
+        messages.add(new ChatMessage("assistant", "얼마예요? -> 얼마우꽈?"));
+        messages.add(new ChatMessage("assistant", "도와주세요 -> 도와주게마씀"));
+        messages.add(new ChatMessage("assistant", "축하합니다 -> 축하하우다"));
+        messages.add(new ChatMessage("assistant", "안녕히 계세요 -> 안녕히 계시우다"));
+        messages.add(new ChatMessage("assistant", "안녕히 가세요 -> 안녕히 가시우다"));
+        messages.add(new ChatMessage("assistant", "잘 먹었습니다 -> 맛있게 먹었수다"));
+        messages.add(new ChatMessage("assistant", "어디에 살아요? -> 어드레 살우꽈?"));
+        messages.add(new ChatMessage("assistant", "내일 봐요 -> 내일 보게마씀"));
+        messages.add(new ChatMessage("assistant", "사랑해요 -> 사랑하우다"));
+        messages.add(new ChatMessage("assistant", "잠시만요 -> 잠깐만 기달리우다"));
+        messages.add(new ChatMessage("assistant", "무슨 일이에요? -> 무슨 일이우꽈?"));
+        messages.add(new ChatMessage("assistant", "괜찮아요? -> 괜찮수과?"));
+        messages.add(new ChatMessage("assistant", "좋은 아침입니다 -> 조은 아침이우다"));
+        messages.add(new ChatMessage("assistant", "잘 자요 -> 잘 자우다"));
+        messages.add(new ChatMessage("assistant", "행운을 빌어요 -> 행운 빌어주게마씀"));
+        messages.add(new ChatMessage("assistant", "오랜만이에요 -> 오랜만이우다"));
+        messages.add(new ChatMessage("assistant", "천천히 말해 주세요 -> 천천히 말해주게마씀"));
+        messages.add(new ChatMessage("assistant", "다시 말해 주세요 -> 다시 말해주게마씀"));
+        messages.add(new ChatMessage("assistant", "잘 이해가 안 돼요 -> 잘 모르겠수다"));
+        messages.add(new ChatMessage("assistant", "알겠어요 -> 알았수다"));
+        messages.add(new ChatMessage("assistant", "괜찮아요 -> 괜찮수다"));
+        messages.add(new ChatMessage("assistant", "이거 얼마예요? -> 이거 얼마우꽈?"));
+        messages.add(new ChatMessage("assistant", "사진 찍어도 돼요? -> 사진 찍어도 됩주?"));
+        messages.add(new ChatMessage("assistant", "화장실이 어디예요? -> 화장실 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "배고파요 -> 배고프우다"));
+        messages.add(new ChatMessage("assistant", "목말라요 -> 목말르우다"));
+        messages.add(new ChatMessage("assistant", "즐거운 시간 보내세요 -> 즐거운 시간 보내게마씀"));
+        messages.add(new ChatMessage("assistant", "여기 앉아도 되나요? -> 여그 앉아도 됩주?"));
+        messages.add(new ChatMessage("assistant", "몇 시예요? -> 몇 시우꽈?"));
+        messages.add(new ChatMessage("assistant", "길을 잃었어요 -> 길을 잃었수다"));
+        messages.add(new ChatMessage("assistant", "이것은 뭐예요? -> 이거 뭐우꽈?"));
+        messages.add(new ChatMessage("assistant", "어디에서 왔어요? -> 어드레서 왔수과?"));
+        messages.add(new ChatMessage("assistant", "지금 뭐 하고 있어요? -> 이시방 뭐 햄수과?"));
+        messages.add(new ChatMessage("assistant", "전화번호가 뭐예요? -> 전화번호 뭐우꽈?"));
+        messages.add(new ChatMessage("assistant", "언제 출발해요? -> 언제 출발합주?"));
+        messages.add(new ChatMessage("assistant", "다음에 또 봐요 -> 다음에 또 보게마씀"));
+        messages.add(new ChatMessage("assistant", "지금 가야 해요 -> 이시방 가야 하우다"));
+        messages.add(new ChatMessage("assistant", "배가 아파요 -> 배 아프우다"));
+        messages.add(new ChatMessage("assistant", "기분이 좋아요 -> 기분 조쿠다"));
+        messages.add(new ChatMessage("assistant", "이해했어요 -> 이해했수다"));
+        messages.add(new ChatMessage("assistant", "모르겠어요 -> 모르겠수다"));
+        messages.add(new ChatMessage("assistant", "날씨가 좋네요 -> 날씨 조쿠다"));
+        messages.add(new ChatMessage("assistant", "비가 오고 있어요 -> 비 오곡수다"));
+        messages.add(new ChatMessage("assistant", "눈이 와요 -> 눈 오곡수다"));
+        messages.add(new ChatMessage("assistant", "더워요 -> 덥수다"));
+        messages.add(new ChatMessage("assistant", "추워요 -> 춥수다"));
+        messages.add(new ChatMessage("assistant", "시작합시다 -> 시작합주"));
+        messages.add(new ChatMessage("assistant", "잠을 잘 잤어요? -> 잠 잘 잤수과?"));
+        messages.add(new ChatMessage("assistant", "어떻게 지내요? -> 어덜 지냄수과?"));
+        messages.add(new ChatMessage("assistant", "시간 있어요? -> 시간 있수과?"));
+        messages.add(new ChatMessage("assistant", "죄송합니다 -> 죄송하우다"));
+        messages.add(new ChatMessage("assistant", "문제 없어요 -> 문제 없수다"));
+        messages.add(new ChatMessage("assistant", "잘 했어요 -> 잘 했수다"));
+        messages.add(new ChatMessage("assistant", "좋은 생각이에요 -> 조은 생각이우다"));
+        messages.add(new ChatMessage("assistant", "여기 있어요 -> 여그 있수다"));
+        messages.add(new ChatMessage("assistant", "안돼요 -> 안됩주"));
+        messages.add(new ChatMessage("assistant", "괜찮습니다 -> 괜찮수다"));
+        messages.add(new ChatMessage("assistant", "같이 가요 -> 같이 갑주"));
+        messages.add(new ChatMessage("assistant", "축하해요 -> 축하하우다"));
+        messages.add(new ChatMessage("assistant", "앉으세요 -> 앉으십주"));
+        messages.add(new ChatMessage("assistant", "일어나세요 -> 일어나십주"));
+        messages.add(new ChatMessage("assistant", "조심하세요 -> 조심하십주"));
+        messages.add(new ChatMessage("assistant", "좋은 하루 되세요 -> 조은 하루 되게마씀"));
+        messages.add(new ChatMessage("assistant", "즐거웠어요 -> 즐거웠수다"));
+        messages.add(new ChatMessage("assistant", "다음에 만나요 -> 다음에 만나게마씀"));
+        messages.add(new ChatMessage("assistant", "어떻게 생각해요? -> 어덜 생각햄수과?"));
+        messages.add(new ChatMessage("assistant", "도와드릴까요? -> 도와드릴수과?"));
+        messages.add(new ChatMessage("assistant", "예약했어요 -> 예약했수다"));
+        messages.add(new ChatMessage("assistant", "맛있게 드세요 -> 맛있게 드십주"));
+        messages.add(new ChatMessage("assistant", "이쪽으로 오세요 -> 이쪽으로 오십주"));
+        messages.add(new ChatMessage("assistant", "사진을 찍어 주세요 -> 사진 찍어주게마씀"));
+        messages.add(new ChatMessage("assistant", "즐거운 여행 되세요 -> 즐거운 여행 되게마씀"));
+        messages.add(new ChatMessage("assistant", "휴가 잘 보내세요 -> 휴가 잘 보내게마씀"));
+        messages.add(new ChatMessage("assistant", "어떤 것을 추천하세요? -> 어떤 거 추천하십주?"));
+        messages.add(new ChatMessage("assistant", "커피 한 잔 주세요 -> 커피 한 잔 주게마씀"));
+        messages.add(new ChatMessage("assistant", "계산서 주세요 -> 계산서 주게마씀"));
+        messages.add(new ChatMessage("assistant", "맛있어요 -> 맛조수다"));
+        messages.add(new ChatMessage("assistant", "시간이 없어요 -> 시간 없수다"));
+        messages.add(new ChatMessage("assistant", "전화해 주세요 -> 전화해주게마씀"));
+        messages.add(new ChatMessage("assistant", "기다려 주세요 -> 기다려주게마씀"));
+        messages.add(new ChatMessage("assistant", "얼마나 걸려요? -> 얼마나 걸립주?"));
+        messages.add(new ChatMessage("assistant", "예약하고 싶어요 -> 예약하고 싶수다"));
+        messages.add(new ChatMessage("assistant", "휴대폰 배터리가 없어요 -> 휴대폰 배터리 없수다"));
+        messages.add(new ChatMessage("assistant", "충전해도 되나요? -> 충전해도 됩주?"));
+        messages.add(new ChatMessage("assistant", "다음 역은 어디예요? -> 다음 역 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "버스 정류장이 어디예요? -> 버스 정류장 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "택시를 불러 주세요 -> 택시 불러주게마씀"));
+        messages.add(new ChatMessage("assistant", "도착하면 알려 주세요 -> 도착하면 알려주게마씀"));
+        messages.add(new ChatMessage("assistant", "문을 열어 주세요 -> 문 열어주게마씀"));
+        messages.add(new ChatMessage("assistant", "사진 찍지 마세요 -> 사진 찍지 마주"));
+        messages.add(new ChatMessage("assistant", "여기는 금연구역이에요 -> 여그는 금연구역이우다"));
+        messages.add(new ChatMessage("assistant", "화재 경보기가 울리고 있어요 -> 화재 경보기 울곡수다"));
+        messages.add(new ChatMessage("assistant", "비상구는 어디예요? -> 비상구 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "행복하세요 -> 행복하십주"));
+        messages.add(new ChatMessage("assistant", "즐거운 주말 보내세요 -> 즐거운 주말 보내게마씀"));
+        messages.add(new ChatMessage("assistant", "새해 복 많이 받으세요 -> 새해 복 많이 받으게마씀"));
+        messages.add(new ChatMessage("assistant", "메리 크리스마스 -> 메리 크리스마스 하우다"));
+        messages.add(new ChatMessage("assistant", "생일 축하해요 -> 생일 축하하우다"));
+        messages.add(new ChatMessage("assistant", "건배합시다 -> 건배합주"));
+        messages.add(new ChatMessage("assistant", "잘 들으세요 -> 잘 들으십주"));
+        messages.add(new ChatMessage("assistant", "시험 잘 보세요 -> 시험 잘 보게마씀"));
+        messages.add(new ChatMessage("assistant", "힘내세요 -> 힘내십주"));
+        messages.add(new ChatMessage("assistant", "연락해 주세요 -> 연락해주게마씀"));
+        messages.add(new ChatMessage("assistant", "늦어서 죄송해요 -> 늦어서 죄송하우다"));
+        messages.add(new ChatMessage("assistant", "걱정하지 마세요 -> 걱정하지 마주"));
+        messages.add(new ChatMessage("assistant", "물 좀 주세요 -> 물 좀 주게마씀"));
+        messages.add(new ChatMessage("assistant", "반가워요 -> 반갑수다"));
+        messages.add(new ChatMessage("assistant", "여기 뭐가 있나요? -> 여그 뭐 있수과?"));
+        messages.add(new ChatMessage("assistant", "사진을 보여 주세요 -> 사진 보여주게마씀"));
+        messages.add(new ChatMessage("assistant", "메일을 보내 주세요 -> 메일 보내주게마씀"));
+        messages.add(new ChatMessage("assistant", "Hello -> 혼저옵서예"));
+        messages.add(new ChatMessage("assistant", "Thank you -> 고맙수다"));
+        messages.add(new ChatMessage("assistant", "I'm sorry -> 죄송하우다"));
+        messages.add(new ChatMessage("assistant", "Good morning -> 조은 아침이우다"));
+        messages.add(new ChatMessage("assistant", "Good night -> 잘 자우다"));
+        messages.add(new ChatMessage("assistant", "How are you? -> 잘 지내수과?"));
+        messages.add(new ChatMessage("assistant", "What is your name? -> 농 이름 뭐꽈?"));
+        messages.add(new ChatMessage("assistant", "Where are you from? -> 어드레서 왔수과?"));
+        messages.add(new ChatMessage("assistant", "Nice to meet you -> 반갑수다"));
+        messages.add(new ChatMessage("assistant", "See you later -> 또 보게마씀"));
+        messages.add(new ChatMessage("assistant", "Yes -> 예"));
+        messages.add(new ChatMessage("assistant", "No -> 아니우다"));
+        messages.add(new ChatMessage("assistant", "Please -> 부탁하우다"));
+        messages.add(new ChatMessage("assistant", "Excuse me -> 실례하우다"));
+        messages.add(new ChatMessage("assistant", "I'm fine -> 괜찮수다"));
+        messages.add(new ChatMessage("assistant", "I don't understand -> 모르겠수다"));
+        messages.add(new ChatMessage("assistant", "Could you repeat that? -> 다시 말해주게마씀"));
+        messages.add(new ChatMessage("assistant", "Do you speak English? -> 영어 할 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "I love you -> 사랑하우다"));
+        messages.add(new ChatMessage("assistant", "Congratulations -> 축하하우다"));
+        messages.add(new ChatMessage("assistant", "Happy birthday -> 생일 축하하우다"));
+        messages.add(new ChatMessage("assistant", "Good luck -> 행운 빌어주게마씀"));
+        messages.add(new ChatMessage("assistant", "What time is it? -> 몇 시우꽈?"));
+        messages.add(new ChatMessage("assistant", "Where is the bathroom? -> 화장실 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "How much is this? -> 이거 얼마우꽈?"));
+        messages.add(new ChatMessage("assistant", "I like it -> 조쿠다"));
+        messages.add(new ChatMessage("assistant", "I don't like it -> 싫수다"));
+        messages.add(new ChatMessage("assistant", "It's delicious -> 맛조수다"));
+        messages.add(new ChatMessage("assistant", "I'm hungry -> 배고프우다"));
+        messages.add(new ChatMessage("assistant", "I'm thirsty -> 목말르우다"));
+        messages.add(new ChatMessage("assistant", "I'm tired -> 피곤하우다"));
+        messages.add(new ChatMessage("assistant", "I don't know -> 모르겠수다"));
+        messages.add(new ChatMessage("assistant", "Can you help me? -> 도와줄 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "Where is the station? -> 역 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "I need a doctor -> 의사 필요하우다"));
+        messages.add(new ChatMessage("assistant", "Call the police -> 경찰 불러주게마씀"));
+        messages.add(new ChatMessage("assistant", "I lost my passport -> 여권 잃었수다"));
+        messages.add(new ChatMessage("assistant", "I need water -> 물 좀 주게마씀"));
+        messages.add(new ChatMessage("assistant", "Can I sit here? -> 여그 앉아도 됩주?"));
+        messages.add(new ChatMessage("assistant", "Let's go -> 갑주"));
+        messages.add(new ChatMessage("assistant", "Stop here, please -> 여그서 멈춰주게마씀"));
+        messages.add(new ChatMessage("assistant", "How far is it? -> 얼마나 멀우꽈?"));
+        messages.add(new ChatMessage("assistant", "Is there Wi-Fi here? -> 여그 와이파이 있수과?"));
+        messages.add(new ChatMessage("assistant", "Check, please -> 계산서 주게마씀"));
+        messages.add(new ChatMessage("assistant", "I have a reservation -> 예약했수다"));
+        messages.add(new ChatMessage("assistant", "Do you accept credit cards? -> 카드 받수과?"));
+        messages.add(new ChatMessage("assistant", "I need a taxi -> 택시 필요하우다"));
+        messages.add(new ChatMessage("assistant", "Take me to this address -> 이 주소로 가주게마씀"));
+        messages.add(new ChatMessage("assistant", "Open the door, please -> 문 열어주게마씀"));
+        messages.add(new ChatMessage("assistant", "Can I take a photo? -> 사진 찍어도 됩주?"));
+        messages.add(new ChatMessage("assistant", "No smoking -> 담배 피우지 마주"));
+        messages.add(new ChatMessage("assistant", "Where can I find...? -> 어디서 찾을 수 있수과...?"));
+        messages.add(new ChatMessage("assistant", "Is this seat taken? -> 이 자리 비었수과?"));
+        messages.add(new ChatMessage("assistant", "What's the Wi-Fi password? -> 와이파이 비밀번호 뭐우꽈?"));
+        messages.add(new ChatMessage("assistant", "Can you recommend a restaurant? -> 조은 식당 추천하십주?"));
+        messages.add(new ChatMessage("assistant", "I feel sick -> 몸이 안 좋수다"));
+        messages.add(new ChatMessage("assistant", "I need medicine -> 약 필요하우다"));
+        messages.add(new ChatMessage("assistant", "Do you have vegetarian food? -> 채식 있수과?"));
+        messages.add(new ChatMessage("assistant", "What is your phone number? -> 전화번호 뭐우꽈?"));
+        messages.add(new ChatMessage("assistant", "See you tomorrow -> 내일 보게마씀"));
+        messages.add(new ChatMessage("assistant", "Have a good trip -> 조은 여행 되게마씀"));
+        messages.add(new ChatMessage("assistant", "Happy holidays -> 조은 휴일 되게마씀"));
+        messages.add(new ChatMessage("assistant", "Can you speak slowly? -> 천천히 말해주게마씀"));
+        messages.add(new ChatMessage("assistant", "It's raining -> 비 오곡수다"));
+        messages.add(new ChatMessage("assistant", "It's snowing -> 눈 오곡수다"));
+        messages.add(new ChatMessage("assistant", "It's hot -> 덥수다"));
+        messages.add(new ChatMessage("assistant", "It's cold -> 춥수다"));
+        messages.add(new ChatMessage("assistant", "I agree -> 동의하우다"));
+        messages.add(new ChatMessage("assistant", "I disagree -> 동의 못하우다"));
+        messages.add(new ChatMessage("assistant", "I'm happy -> 기분 조쿠다"));
+        messages.add(new ChatMessage("assistant", "I'm sad -> 슬프우다"));
+        messages.add(new ChatMessage("assistant", "Don't worry -> 걱정하지 마주"));
+        messages.add(new ChatMessage("assistant", "What's your favorite food? -> 좋아하는 음식 뭐우꽈?"));
+        messages.add(new ChatMessage("assistant", "I like Korean food -> 한국 음식 조쿠다"));
+        messages.add(new ChatMessage("assistant", "Where is the hotel? -> 호텔 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "I need to go to the airport -> 공항 가야 하우다"));
+        messages.add(new ChatMessage("assistant", "Do you have a room available? -> 방 있수과?"));
+        messages.add(new ChatMessage("assistant", "How many people? -> 몇 명이우꽈?"));
+        messages.add(new ChatMessage("assistant", "I will stay for two nights -> 이틀 묵을거우다"));
+        messages.add(new ChatMessage("assistant", "Check-in, please -> 체크인 하게마씀"));
+        messages.add(new ChatMessage("assistant", "Check-out, please -> 체크아웃 하게마씀"));
+        messages.add(new ChatMessage("assistant", "Where is the elevator? -> 엘리베이터 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "Can I get a map? -> 지도 주게마씀"));
+        messages.add(new ChatMessage("assistant", "What is this dish? -> 이 음식 뭐우꽈?"));
+        messages.add(new ChatMessage("assistant", "I am allergic to seafood -> 해산물 알레르기 있수다"));
+        messages.add(new ChatMessage("assistant", "No spice, please -> 매운 거 빼주게마씀"));
+        messages.add(new ChatMessage("assistant", "Water, please -> 물 좀 주게마씀"));
+        messages.add(new ChatMessage("assistant", "Beer, please -> 맥주 주게마씀"));
+        messages.add(new ChatMessage("assistant", "Cheers -> 건배합주"));
+        messages.add(new ChatMessage("assistant", "I am full -> 배부르우다"));
+        messages.add(new ChatMessage("assistant", "It was delicious -> 맛있게 먹었수다"));
+        messages.add(new ChatMessage("assistant", "The bill, please -> 계산서 주게마씀"));
+        messages.add(new ChatMessage("assistant", "Can I pay by card? -> 카드로 계산해도 됩주?"));
+        messages.add(new ChatMessage("assistant", "I will pay in cash -> 현금으로 낼게마씀"));
+        messages.add(new ChatMessage("assistant", "Keep the change -> 잔돈 가지게마씀"));
+        messages.add(new ChatMessage("assistant", "Do you have any recommendations? -> 추천할 거 있수과?"));
+        messages.add(new ChatMessage("assistant", "Is there a bus to the city? -> 시내 가는 버스 있수과?"));
+        messages.add(new ChatMessage("assistant", "When is the next train? -> 다음 기차 언제우꽈?"));
+        messages.add(new ChatMessage("assistant", "Where can I buy a ticket? -> 표 어디서 살 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "How long does it take? -> 얼마나 걸립주?"));
+        messages.add(new ChatMessage("assistant", "Can you show me on the map? -> 지도에서 보여주게마씀"));
+        messages.add(new ChatMessage("assistant", "Is there a discount? -> 할인 있수과?"));
+        messages.add(new ChatMessage("assistant", "Do you have this in a different size? -> 다른 사이즈 있수과?"));
+        messages.add(new ChatMessage("assistant", "I am just looking -> 그냥 보고 있수다"));
+        messages.add(new ChatMessage("assistant", "I'll take this -> 이거 살게마씀"));
+        messages.add(new ChatMessage("assistant", "Where is the nearest ATM? -> 가까운 ATM 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "I need to exchange money -> 환전해야 하우다"));
+        messages.add(new ChatMessage("assistant", "Is there a pharmacy nearby? -> 근처 약국 있수과?"));
+        messages.add(new ChatMessage("assistant", "I have a headache -> 머리 아프우다"));
+        messages.add(new ChatMessage("assistant", "I have a stomachache -> 배 아프우다"));
+        messages.add(new ChatMessage("assistant", "I feel dizzy -> 어지럽수다"));
+        messages.add(new ChatMessage("assistant", "I have a fever -> 열 있수다"));
+        messages.add(new ChatMessage("assistant", "Call an ambulance -> 구급차 불러주게마씀"));
+        messages.add(new ChatMessage("assistant", "Where is the embassy? -> 대사관 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "I lost my luggage -> 짐 잃었수다"));
+        messages.add(new ChatMessage("assistant", "I need to make a phone call -> 전화해야 하우다"));
+        messages.add(new ChatMessage("assistant", "Do you have internet access? -> 인터넷 있수과?"));
+        messages.add(new ChatMessage("assistant", "Where can I buy a SIM card? -> 심카드 어디서 살 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "Can you recommend a tourist spot? -> 관광지 추천하십주?"));
+        messages.add(new ChatMessage("assistant", "Is this seat available? -> 이 자리 있수과?"));
+        messages.add(new ChatMessage("assistant", "I don't eat meat -> 고기 안 먹수다"));
+        messages.add(new ChatMessage("assistant", "I'm vegetarian -> 채식하우다"));
+        messages.add(new ChatMessage("assistant", "I need a receipt -> 영수증 필요하우다"));
+        messages.add(new ChatMessage("assistant", "Can I get a bag? -> 봉투 주게마씀"));
+        messages.add(new ChatMessage("assistant", "What is the exchange rate? -> 환율 얼마우꽈?"));
+        messages.add(new ChatMessage("assistant", "I need to go now -> 이시방 가야 하우다"));
+        messages.add(new ChatMessage("assistant", "See you next time -> 다음에 만나게마씀"));
+        messages.add(new ChatMessage("assistant", "Have a good evening -> 조은 저녁 되게마씀"));
+        messages.add(new ChatMessage("assistant", "Drive safely -> 안전운행 하게마씀"));
+        messages.add(new ChatMessage("assistant", "Please fasten your seatbelt -> 안전벨트 매주게마씀"));
+        messages.add(new ChatMessage("assistant", "Can I get a menu? -> 메뉴판 주게마씀"));
+        messages.add(new ChatMessage("assistant", "What do you recommend? -> 뭐 추천하십주?"));
+        messages.add(new ChatMessage("assistant", "Do you have vegetarian options? -> 채식 메뉴 있수과?"));
+        messages.add(new ChatMessage("assistant", "I would like to order now -> 주문할게마씀"));
+        messages.add(new ChatMessage("assistant", "Is service included? -> 서비스 포함됐수과?"));
+        messages.add(new ChatMessage("assistant", "Is there a museum nearby? -> 근처 박물관 있수과?"));
+        messages.add(new ChatMessage("assistant", "Where is the beach? -> 바다 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "What is the weather like? -> 날씨 어떻수과?"));
+        messages.add(new ChatMessage("assistant", "Can I get a towel? -> 수건 주게마씀"));
+        messages.add(new ChatMessage("assistant", "I need to charge my phone -> 핸드폰 충전해야 하우다"));
+        messages.add(new ChatMessage("assistant", "Do you have a charger? -> 충전기 있수과?"));
+        messages.add(new ChatMessage("assistant", "Can I use your phone? -> 전화기 써도 됩주?"));
+        messages.add(new ChatMessage("assistant", "I lost my phone -> 핸드폰 잃었수다"));
+        messages.add(new ChatMessage("assistant", "I need to report a theft -> 도난 신고해야 하우다"));
+        messages.add(new ChatMessage("assistant", "Is this the right way? -> 이 길 맞수과?"));
+        messages.add(new ChatMessage("assistant", "Can you show me the way? -> 길 알려주게마씀"));
+        messages.add(new ChatMessage("assistant", "Is there a supermarket nearby? -> 근처 슈퍼 있수과?"));
+        messages.add(new ChatMessage("assistant", "I would like to buy a ticket -> 표 살게마씀"));
+        messages.add(new ChatMessage("assistant", "When does it open? -> 언제 여립주?"));
+        messages.add(new ChatMessage("assistant", "When does it close? -> 언제 닫습주?"));
+        messages.add(new ChatMessage("assistant", "Is there an entrance fee? -> 입장료 있수과?"));
+        messages.add(new ChatMessage("assistant", "I am looking for this place -> 여그 찾고 있수다"));
+        messages.add(new ChatMessage("assistant", "Can I get a guidebook? -> 안내책자 주게마씀"));
+        messages.add(new ChatMessage("assistant", "Do you have an English guide? -> 영어 가이드 있수과?"));
+        messages.add(new ChatMessage("assistant", "I lost my friend -> 친구 잃었수다"));
+        messages.add(new ChatMessage("assistant", "Can you make it cheaper? -> 좀 깎아주게마씀"));
+        messages.add(new ChatMessage("assistant", "I need an adapter -> 어댑터 필요하우다"));
+        messages.add(new ChatMessage("assistant", "Is breakfast included? -> 아침 포함됐수과?"));
+        messages.add(new ChatMessage("assistant", "What time is breakfast? -> 아침 몇 시우꽈?"));
+        messages.add(new ChatMessage("assistant", "Can I get a wake-up call? -> 모닝콜 부탁하우다"));
+        messages.add(new ChatMessage("assistant", "I have a question -> 질문 있수다"));
+        messages.add(new ChatMessage("assistant", "Is there a laundry service? -> 세탁 서비스 있수과?"));
+        messages.add(new ChatMessage("assistant", "Where is the nearest bank? -> 가까운 은행 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "Can I change rooms? -> 방 바꿀 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "The air conditioner doesn't work -> 에어컨 안 됩주"));
+        messages.add(new ChatMessage("assistant", "The room is too noisy -> 방이 너무 시끄럽수다"));
+        messages.add(new ChatMessage("assistant", "I enjoyed my stay -> 잘 묵었수다"));
+        messages.add(new ChatMessage("assistant", "Thank you for your help -> 도와줘서 고맙수다"));
+        messages.add(new ChatMessage("assistant", "I need to cancel my reservation -> 예약 취소해야 하우다"));
+        messages.add(new ChatMessage("assistant", "Can I extend my stay? -> 연장할 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "Is breakfast available? -> 아침 먹을 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "I would like to check out -> 체크아웃 할게마씀"));
+        messages.add(new ChatMessage("assistant", "Please call me a taxi -> 택시 불러주게마씀"));
+        messages.add(new ChatMessage("assistant", "I will come back later -> 나중에 다시 올게마씀"));
+        messages.add(new ChatMessage("assistant", "I had a great time -> 즐거웠수다"));
+        messages.add(new ChatMessage("assistant", "I hope to see you again -> 다시 보게마씀"));
+        messages.add(new ChatMessage("assistant", "Take care of yourself -> 몸 건강하십주"));
+        messages.add(new ChatMessage("assistant", "Do you have any plans? -> 계획 있수과?"));
+        messages.add(new ChatMessage("assistant", "Let's meet again -> 다시 만나게마씀"));
+        messages.add(new ChatMessage("assistant", "Happy to help -> 도와줘서 기분 조쿠다"));
+        messages.add(new ChatMessage("assistant", "Enjoy your meal -> 맛있게 드십주"));
+        messages.add(new ChatMessage("assistant", "Have a safe trip -> 안전하게 다녀오게마씀"));
+        messages.add(new ChatMessage("assistant", "What brings you here? -> 여그 왜 왔수과?"));
+        messages.add(new ChatMessage("assistant", "I am here for vacation -> 휴가로 왔수다"));
+        messages.add(new ChatMessage("assistant", "I am here for business -> 일하러 왔수다"));
+        messages.add(new ChatMessage("assistant", "Can you speak louder? -> 크게 말해주게마씀"));
+        messages.add(new ChatMessage("assistant", "Is there a tourist information center? -> 관광안내소 있수과?"));
+        messages.add(new ChatMessage("assistant", "I would like to rent a car -> 차 빌리고 싶수다"));
+        messages.add(new ChatMessage("assistant", "Do I need a license? -> 면허증 필요하우꽈?"));
+        messages.add(new ChatMessage("assistant", "Is insurance included? -> 보험 포함됐수과?"));
+        messages.add(new ChatMessage("assistant", "I have a reservation under the name... -> ...이름으로 예약했수다"));
+        messages.add(new ChatMessage("assistant", "My luggage is missing -> 짐 없어졌수다"));
+        messages.add(new ChatMessage("assistant", "I need a map of the city -> 도시 지도 필요하우다"));
+        messages.add(new ChatMessage("assistant", "Where can I find a taxi? -> 택시 어디서 탈 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "Is there a bus schedule? -> 버스 시간표 있수과?"));
+        messages.add(new ChatMessage("assistant", "I need to catch a flight -> 비행기 타야 하우다"));
+        messages.add(new ChatMessage("assistant", "Can I have your contact information? -> 연락처 주게마씀"));
+        messages.add(new ChatMessage("assistant", "Do you use KakaoTalk? -> 카카오톡 쓰십주?"));
+        messages.add(new ChatMessage("assistant", "Let's keep in touch -> 연락하며 지내게마씀"));
+        messages.add(new ChatMessage("assistant", "I really appreciate it -> 정말 고맙수다"));
+        messages.add(new ChatMessage("assistant", "I'm sorry for the inconvenience -> 불편하게 해서 죄송하우다"));
+        messages.add(new ChatMessage("assistant", "Can you lower the price? -> 가격 좀 내려주게마씀"));
+        messages.add(new ChatMessage("assistant", "Is there a student discount? -> 학생 할인 있수과?"));
+        messages.add(new ChatMessage("assistant", "Where is the emergency exit? -> 비상구 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "Fire! -> 불났수다!"));
+        messages.add(new ChatMessage("assistant", "Help! -> 도와주게마씀!"));
+        messages.add(new ChatMessage("assistant", "I need to go to the hospital -> 병원 가야 하우다"));
+        messages.add(new ChatMessage("assistant", "Where is the police station? -> 경찰서 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "I lost my wallet -> 지갑 잃었수다"));
+        messages.add(new ChatMessage("assistant", "Someone stole my bag -> 누가 가방 훔쳤수다"));
+        messages.add(new ChatMessage("assistant", "I am allergic to peanuts -> 땅콩 알레르기 있수다"));
+        messages.add(new ChatMessage("assistant", "No problem -> 문제 없수다"));
+        messages.add(new ChatMessage("assistant", "I am learning Korean -> 한국말 배우곡수다"));
+        messages.add(new ChatMessage("assistant", "Can you teach me? -> 가르쳐주게마씀"));
+        messages.add(new ChatMessage("assistant", "What does this mean? -> 이거 무슨 뜻이우꽈?"));
+        messages.add(new ChatMessage("assistant", "How do you say... in Korean? -> ... 한국말로 어떻게 말하우꽈?"));
+        messages.add(new ChatMessage("assistant", "I need to practice -> 연습해야 하우다"));
+        messages.add(new ChatMessage("assistant", "You are very kind -> 참 친절하십주"));
+        messages.add(new ChatMessage("assistant", "I appreciate your help -> 도와줘서 고맙수다"));
+        messages.add(new ChatMessage("assistant", "It's getting late -> 시간이 늦었수다"));
+        messages.add(new ChatMessage("assistant", "I have to go -> 가야 하우다"));
+        messages.add(new ChatMessage("assistant", "Goodbye -> 안녕히 가시우다"));
+        messages.add(new ChatMessage("assistant", "See you soon -> 곧 보게마씀"));
+
+// Additional Chinese phrases
+        messages.add(new ChatMessage("assistant", "你好 -> 혼저옵서예"));
+        messages.add(new ChatMessage("assistant", "谢谢 -> 고맙수다"));
+        messages.add(new ChatMessage("assistant", "对不起 -> 죄송하우다"));
+        messages.add(new ChatMessage("assistant", "早上好 -> 조은 아침이우다"));
+        messages.add(new ChatMessage("assistant", "晚安 -> 잘 자우다"));
+        messages.add(new ChatMessage("assistant", "你好吗？-> 잘 지내수과?"));
+        messages.add(new ChatMessage("assistant", "我爱你 -> 사랑하우다"));
+        messages.add(new ChatMessage("assistant", "明天见 -> 내일 보게마씀"));
+        messages.add(new ChatMessage("assistant", "你叫什么名字？-> 농 이름 뭐꽈?"));
+        messages.add(new ChatMessage("assistant", "你要去哪里？-> 어드레 감수과?"));
+        messages.add(new ChatMessage("assistant", "再见 -> 안녕히 가시우다"));
+        messages.add(new ChatMessage("assistant", "是的 -> 예"));
+        messages.add(new ChatMessage("assistant", "不是 -> 아니우다"));
+        messages.add(new ChatMessage("assistant", "请帮助我 -> 도와주게마씀"));
+        messages.add(new ChatMessage("assistant", "我不明白 -> 모르겠수다"));
+        messages.add(new ChatMessage("assistant", "打扰一下 -> 실례하우다"));
+        messages.add(new ChatMessage("assistant", "这个多少钱？-> 이거 얼마우꽈?"));
+        messages.add(new ChatMessage("assistant", "你会说英语吗？-> 영어 할 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "我饿了 -> 배고프우다"));
+        messages.add(new ChatMessage("assistant", "我渴了 -> 목말르우다"));
+        messages.add(new ChatMessage("assistant", "祝你好运 -> 행운 빌어주게마씀"));
+        messages.add(new ChatMessage("assistant", "恭喜 -> 축하하우다"));
+        messages.add(new ChatMessage("assistant", "生日快乐 -> 생일 축하하우다"));
+        messages.add(new ChatMessage("assistant", "新年快乐 -> 새해 복 많이 받으게마씀"));
+        messages.add(new ChatMessage("assistant", "请慢一点说 -> 천천히 말해주게마씀"));
+        messages.add(new ChatMessage("assistant", "你明白吗？-> 이해했수과?"));
+        messages.add(new ChatMessage("assistant", "我明白了 -> 알았수다"));
+        messages.add(new ChatMessage("assistant", "请等一下 -> 잠깐만 기달리우다"));
+        messages.add(new ChatMessage("assistant", "我很高兴 -> 기분 조쿠다"));
+        messages.add(new ChatMessage("assistant", "我很难过 -> 슬프우다"));
+        messages.add(new ChatMessage("assistant", "没关系 -> 괜찮수다"));
+        messages.add(new ChatMessage("assistant", "不要担心 -> 걱정하지 마주"));
+        messages.add(new ChatMessage("assistant", "你喜欢什么食物？-> 좋아하는 음식 뭐우꽈?"));
+        messages.add(new ChatMessage("assistant", "我喜欢韩国菜 -> 한국 음식 조쿠다"));
+        messages.add(new ChatMessage("assistant", "哪里有酒店？-> 호텔 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "我需要去机场 -> 공항 가야 하우다"));
+        messages.add(new ChatMessage("assistant", "我需要帮助 -> 도움이 필요하우다"));
+        messages.add(new ChatMessage("assistant", "现在几点了？-> 몇 시우꽈?"));
+        messages.add(new ChatMessage("assistant", "我迷路了 -> 길을 잃었수다"));
+        messages.add(new ChatMessage("assistant", "请问洗手间在哪里？-> 화장실 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "请给我一杯水 -> 물 좀 주게마씀"));
+        messages.add(new ChatMessage("assistant", "你有空吗？-> 시간 있수과?"));
+        messages.add(new ChatMessage("assistant", "祝你有美好的一天 -> 조은 하루 되게마씀"));
+        messages.add(new ChatMessage("assistant", "我们一起去吧 -> 같이 갑주"));
+        messages.add(new ChatMessage("assistant", "请给我菜单 -> 메뉴판 주게마씀"));
+        messages.add(new ChatMessage("assistant", "这道菜是什么？-> 이 음식 뭐우꽈?"));
+        messages.add(new ChatMessage("assistant", "太贵了 -> 너무 비싸우다"));
+        messages.add(new ChatMessage("assistant", "便宜一点可以吗？-> 좀 깎아주게마씀"));
+        messages.add(new ChatMessage("assistant", "我想买这个 -> 이거 살게마씀"));
+        messages.add(new ChatMessage("assistant", "这里有超市吗？-> 근처 슈퍼 있수과?"));
+        messages.add(new ChatMessage("assistant", "请问公共汽车站在哪里？-> 버스 정류장 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "火车站在哪里？-> 기차역 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "地铁站在哪里？-> 지하철역 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "现在开放吗？-> 이시방 여립주?"));
+        messages.add(new ChatMessage("assistant", "什么时候关闭？-> 언제 닫습주?"));
+        messages.add(new ChatMessage("assistant", "我需要帮助 -> 도움이 필요하우다"));
+        messages.add(new ChatMessage("assistant", "请给我看看 -> 보여주게마씀"));
+        messages.add(new ChatMessage("assistant", "请跟我来 -> 따라오십주"));
+        messages.add(new ChatMessage("assistant", "请给我发邮件 -> 메일 보내주게마씀"));
+        messages.add(new ChatMessage("assistant", "请坐 -> 앉으십주"));
+        messages.add(new ChatMessage("assistant", "请站起来 -> 일어나십주"));
+        messages.add(new ChatMessage("assistant", "小心 -> 조심하십주"));
+        messages.add(new ChatMessage("assistant", "祝你周末愉快 -> 즐거운 주말 보내게마씀"));
+        messages.add(new ChatMessage("assistant", "请问你叫什么名字？-> 농 이름 뭐꽈?"));
+        messages.add(new ChatMessage("assistant", "很高兴见到你 -> 반갑수다"));
+        messages.add(new ChatMessage("assistant", "我想学习韩语 -> 한국말 배우곡수다"));
+        messages.add(new ChatMessage("assistant", "你能教我吗？-> 가르쳐주게마씀"));
+        messages.add(new ChatMessage("assistant", "这是什么意思？-> 이거 무슨 뜻이우꽈?"));
+        messages.add(new ChatMessage("assistant", "请写下来 -> 적어주게마씀"));
+        messages.add(new ChatMessage("assistant", "请问银行在哪里？-> 은행 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "可以给我优惠吗？-> 할인해줄 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "我很喜欢 -> 조쿠다"));
+        messages.add(new ChatMessage("assistant", "我不喜欢 -> 싫수다"));
+        messages.add(new ChatMessage("assistant", "可以试一下吗？-> 입어봐도 됩주?"));
+        messages.add(new ChatMessage("assistant", "有更大的尺寸吗？-> 더 큰 사이즈 있수과?"));
+        messages.add(new ChatMessage("assistant", "有更小的尺寸吗？-> 더 작은 사이즈 있수과?"));
+        messages.add(new ChatMessage("assistant", "请给我一杯咖啡 -> 커피 한 잔 주게마씀"));
+        messages.add(new ChatMessage("assistant", "请结账 -> 계산서 주게마씀"));
+        messages.add(new ChatMessage("assistant", "可以打包吗？-> 포장해줄 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "请稍等 -> 잠깐만 기달리우다"));
+        messages.add(new ChatMessage("assistant", "我马上回来 -> 금방 올게마씀"));
+        messages.add(new ChatMessage("assistant", "我需要预约 -> 예약하고 싶수다"));
+        messages.add(new ChatMessage("assistant", "可以拍照吗？-> 사진 찍어도 됩주?"));
+        messages.add(new ChatMessage("assistant", "请帮我拍照 -> 사진 찍어주게마씀"));
+        messages.add(new ChatMessage("assistant", "请问这里有无线网络吗？-> 와이파이 있수과?"));
+        messages.add(new ChatMessage("assistant", "可以给我密码吗？-> 비밀번호 알려주게마씀"));
+        messages.add(new ChatMessage("assistant", "请问最近的地铁站在哪里？-> 가까운 지하철역 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "我想去这里 -> 여그 가고 싶수다"));
+        messages.add(new ChatMessage("assistant", "现在几点了？-> 몇 시우꽈?"));
+        messages.add(new ChatMessage("assistant", "天气怎么样？-> 날씨 어떻수과?"));
+        messages.add(new ChatMessage("assistant", "请开快一点 -> 빨리 가주게마씀"));
+        messages.add(new ChatMessage("assistant", "请开慢一点 -> 천천히 가주게마씀"));
+        messages.add(new ChatMessage("assistant", "请问有洗衣服务吗？-> 세탁 서비스 있수과?"));
+        messages.add(new ChatMessage("assistant", "我可以换房间吗？-> 방 바꿀 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "空调坏了 -> 에어컨 안 됩주"));
+        messages.add(new ChatMessage("assistant", "热水器坏了 -> 온수 안 나옵주"));
+        messages.add(new ChatMessage("assistant", "我需要毛巾 -> 수건 필요하우다"));
+        messages.add(new ChatMessage("assistant", "我需要更多的枕头 -> 베개 더 필요하우다"));
+        messages.add(new ChatMessage("assistant", "请打扫房间 -> 방 청소해주게마씀"));
+        messages.add(new ChatMessage("assistant", "什么时候可以入住？-> 언제 체크인 할 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "什么时候退房？-> 언제 체크아웃 하우꽈?"));
+        messages.add(new ChatMessage("assistant", "我想预约明天的房间 -> 내일 방 예약하고 싶수다"));
+        messages.add(new ChatMessage("assistant", "请问这里有游泳池吗？-> 여그 수영장 있수과?"));
+        messages.add(new ChatMessage("assistant", "请给我一个靠窗的座位 -> 창가 자리 주게마씀"));
+        messages.add(new ChatMessage("assistant", "可以刷卡吗？-> 카드로 계산해도 됩주?"));
+        messages.add(new ChatMessage("assistant", "请帮我叫一辆出租车 -> 택시 불러주게마씀"));
+        messages.add(new ChatMessage("assistant", "请问今天有什么活动？-> 오늘 행사 뭐 있수과?"));
+        messages.add(new ChatMessage("assistant", "我想预订票 -> 표 예약하고 싶수다"));
+        messages.add(new ChatMessage("assistant", "请问座位在哪里？-> 자리 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "演出什么时候开始？-> 공연 언제 시작합주?"));
+        messages.add(new ChatMessage("assistant", "请给我推荐一下 -> 추천해주게마씀"));
+        messages.add(new ChatMessage("assistant", "祝你晚安 -> 잘 자우다"));
+        messages.add(new ChatMessage("assistant", "做个好梦 -> 좋은 꿈 꾸게마씀"));
+        messages.add(new ChatMessage("assistant", "我会想你的 -> 보고 싶을거우다"));
+        messages.add(new ChatMessage("assistant", "保重 -> 건강하십주"));
+        messages.add(new ChatMessage("assistant", "明天见 -> 내일 보게마씀"));
+        messages.add(new ChatMessage("assistant", "一路平安 -> 안전하게 다녀오게마씀"));
+        messages.add(new ChatMessage("assistant", "请慢走 -> 조심히 가시우다"));
+        messages.add(new ChatMessage("assistant", "期待再次见面 -> 다시 만나게마씀"));
+
+// Additional Nepali phrases
+        messages.add(new ChatMessage("assistant", "नमस्ते -> 혼저옵서예"));
+        messages.add(new ChatMessage("assistant", "धन्यवाद -> 고맙수다"));
+        messages.add(new ChatMessage("assistant", "माफ गर्नुहोस् -> 죄송하우다"));
+        messages.add(new ChatMessage("assistant", "सुप्रभात -> 조은 아침이우다"));
+        messages.add(new ChatMessage("assistant", "शुभ रात्री -> 잘 자우다"));
+        messages.add(new ChatMessage("assistant", "तपाईंलाई कस्तो छ？-> 잘 지내수과?"));
+        messages.add(new ChatMessage("assistant", "म तपाईँलाई माया गर्छु -> 사랑하우다"));
+        messages.add(new ChatMessage("assistant", "भोलि भेटौंला -> 내일 보게마씀"));
+        messages.add(new ChatMessage("assistant", "तपाईंको नाम के हो？-> 농 이름 뭐꽈?"));
+        messages.add(new ChatMessage("assistant", "तपाईं कहाँ जाँदै हुनुहुन्छ？-> 어드레 감수과?"));
+        messages.add(new ChatMessage("assistant", "विदा -> 안녕히 가시우다"));
+        messages.add(new ChatMessage("assistant", "हो -> 예"));
+        messages.add(new ChatMessage("assistant", "होइन -> 아니우다"));
+        messages.add(new ChatMessage("assistant", "कृपया मलाई मद्दत गर्नुहोस् -> 도와주게마씀"));
+        messages.add(new ChatMessage("assistant", "म बुझिनँ -> 모르겠수다"));
+        messages.add(new ChatMessage("assistant", "माफ गर्नुहोस् -> 실례하우다"));
+        messages.add(new ChatMessage("assistant", "यो कति हो？-> 이거 얼마우꽈?"));
+        messages.add(new ChatMessage("assistant", "तपाईं अंग्रेजी बोल्नुहुन्छ？-> 영어 할 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "म भोक लागेको छ -> 배고프우다"));
+        messages.add(new ChatMessage("assistant", "मलाई तिर्खा लागेको छ -> 목말르우다"));
+        messages.add(new ChatMessage("assistant", "शुभकामना -> 행운 빌어주게마씀"));
+        messages.add(new ChatMessage("assistant", "बधाई छ -> 축하하우다"));
+        messages.add(new ChatMessage("assistant", "जन्मदिनको शुभकामना -> 생일 축하하우다"));
+        messages.add(new ChatMessage("assistant", "नयाँ वर्षको शुभकामना -> 새해 복 많이 받으게마씀"));
+        messages.add(new ChatMessage("assistant", "बिस्तारै बोल्नुहोस् -> 천천히 말해주게마씀"));
+        messages.add(new ChatMessage("assistant", "तपाईं बुझ्नुभयो？-> 이해했수과?"));
+        messages.add(new ChatMessage("assistant", "म बुझें -> 알았수다"));
+        messages.add(new ChatMessage("assistant", "पर्खनुहोस् -> 잠깐만 기달리우다"));
+        messages.add(new ChatMessage("assistant", "म खुशी छु -> 기분 조쿠다"));
+        messages.add(new ChatMessage("assistant", "म दु:खी छु -> 슬프우다"));
+        messages.add(new ChatMessage("assistant", "ठीक छ -> 괜찮수다"));
+        messages.add(new ChatMessage("assistant", "चिन्ता नगर्नुहोस् -> 걱정하지 마주"));
+        messages.add(new ChatMessage("assistant", "तपाईंको मनपर्ने खाना के हो？-> 좋아하는 음식 뭐우꽈?"));
+        messages.add(new ChatMessage("assistant", "मलाई कोरियन खाना मन पर्छ -> 한국 음식 조쿠다"));
+        messages.add(new ChatMessage("assistant", "होटल कहाँ छ？-> 호텔 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "मलाई एयरपोर्ट जानु छ -> 공항 가야 하우다"));
+        messages.add(new ChatMessage("assistant", "मलाई मद्दत चाहियो -> 도움이 필요하우다"));
+        messages.add(new ChatMessage("assistant", "अहिले कति बजे भयो？-> 몇 시우꽈?"));
+        messages.add(new ChatMessage("assistant", "म बाटो बिराएँ -> 길을 잃었수다"));
+        messages.add(new ChatMessage("assistant", "शौचालय कहाँ छ？-> 화장실 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "पानी दिनुहोस् -> 물 좀 주게마씀"));
+        messages.add(new ChatMessage("assistant", "के तपाईंलाई समय छ？-> 시간 있수과?"));
+        messages.add(new ChatMessage("assistant", "हाम्रो यात्रा सुखद होस् -> 조은 여행 되게마씀"));
+        messages.add(new ChatMessage("assistant", "हामी सँगै जाऔं -> 같이 갑주"));
+        messages.add(new ChatMessage("assistant", "मेनु दिनुहोस् -> 메뉴판 주게마씀"));
+        messages.add(new ChatMessage("assistant", "यो के हो？-> 이거 뭐우꽈?"));
+        messages.add(new ChatMessage("assistant", "धेरै महँगो छ -> 너무 비싸우다"));
+        messages.add(new ChatMessage("assistant", "के यो सस्तो बनाउन सक्नुहुन्छ？-> 좀 깎아주게마씀"));
+        messages.add(new ChatMessage("assistant", "म यो किन्छु -> 이거 살게마씀"));
+        messages.add(new ChatMessage("assistant", "यहाँ सुपरमार्केट छ？-> 근처 슈퍼 있수과?"));
+        messages.add(new ChatMessage("assistant", "बस स्टप कहाँ छ？-> 버스 정류장 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "रेलवे स्टेशन कहाँ छ？-> 기차역 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "मेट्रो स्टेशन कहाँ छ？-> 지하철역 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "अहिले खुल्ला छ？-> 이시방 여립주?"));
+        messages.add(new ChatMessage("assistant", "कहिले बन्द हुन्छ？-> 언제 닫습주?"));
+        messages.add(new ChatMessage("assistant", "मलाई सहयोग चाहियो -> 도움이 필요하우다"));
+        messages.add(new ChatMessage("assistant", "मलाई देखाउनुहोस् -> 보여주게마씀"));
+        messages.add(new ChatMessage("assistant", "मेरो पछाडि आउनुहोस् -> 따라오십주"));
+        messages.add(new ChatMessage("assistant", "इमेल पठाउनुहोस् -> 메일 보내주게마씀"));
+        messages.add(new ChatMessage("assistant", "बस्नुहोस् -> 앉으십주"));
+        messages.add(new ChatMessage("assistant", "उभिनुहोस् -> 일어나십주"));
+        messages.add(new ChatMessage("assistant", "सावधान रहनुहोस् -> 조심하십주"));
+        messages.add(new ChatMessage("assistant", "शुभ सप्ताहन्त -> 즐거운 주말 보내게마씀"));
+        messages.add(new ChatMessage("assistant", "तपाईंको नाम के हो？-> 농 이름 뭐꽈?"));
+        messages.add(new ChatMessage("assistant", "तपाईंलाई भेटेर खुशी लाग्यो -> 반갑수다"));
+        messages.add(new ChatMessage("assistant", "म कोरियन भाषा सिक्न चाहन्छु -> 한국말 배우곡수다"));
+        messages.add(new ChatMessage("assistant", "के तपाईं मलाई सिकाउनुहुन्छ？-> 가르쳐주게마씀"));
+        messages.add(new ChatMessage("assistant", "यसको अर्थ के हो？-> 이거 무슨 뜻이우꽈?"));
+        messages.add(new ChatMessage("assistant", "लेख्नुहोस् -> 적어주게마씀"));
+        messages.add(new ChatMessage("assistant", "बैंक कहाँ छ？-> 은행 어드레우꽈?"));
+        messages.add(new ChatMessage("assistant", "के तपाईंले मलाई छुट दिन सक्नुहुन्छ？-> 할인해줄 수 있수과?"));
+        messages.add(new ChatMessage("assistant", "मलाई मन पर्छ -> 조쿠다"));
+
+        // 자주 쓰이는 표현을 추가할 수 있음
+
+        // 사용자 입력을 기반으로 번역 요청 생성
         switch (language) {
             case "ko":
-                messages.add(new ChatMessage("user", " lang_code: ko, word: "+ prompt ));
+                // 한국어 -> 제주도 방언 번역
+                messages.add(new ChatMessage("user", "Translate this to Jeju dialect: " + prompt));
                 break;
             case "cn":
-                messages.add(new ChatMessage("user", " lang_code: china, word: "+ prompt));
+                // 입력된 텍스트를 중국어로 번역
+                messages.add(new ChatMessage("user", "Translate this to Chinese: " + prompt));
                 break;
             case "en":
-                messages.add(new ChatMessage("user", " lang_code: english, word: "+ prompt));
+                // 입력된 텍스트를 영어로 번역
+                messages.add(new ChatMessage("user", "Translate this to English: " + prompt));
                 break;
             case "ne":
-                messages.add(new ChatMessage("user", " lang_code: Nepail, word: " + prompt));
+                // 입력된 텍스트를 네팔어로 번역
+                messages.add(new ChatMessage("user", "Translate this to Nepali: " + prompt));
                 break;
             default:
-                // 기본적으로 입력된 언어 그대로 처리
-                messages.add(new ChatMessage("user", prompt));
-                break;
+                throw new IllegalArgumentException("지원하지 않는 언어 코드입니다: " + language);
         }
 
         // 2. 요청 객체 생성
@@ -167,8 +603,9 @@ public class ChatGPTService {
         HttpEntity<ChatRequest> requestEntity = new HttpEntity<>(chatRequest, headers);
 
         // 3. 프록시가 설정된 RestTemplate 사용
-        RestTemplate restTemplate =  chatGPTConfig.restTemplate();
+        RestTemplate restTemplate = chatGPTConfig.restTemplate();
 
+        // API 호출 및 응답 받기
         ChatResponse response = restTemplate.postForObject(url, requestEntity, ChatResponse.class);
 
         // 4. 응답 처리
@@ -176,6 +613,8 @@ public class ChatGPTService {
             log.error("응답이 비었음");
             throw new RuntimeException("OpenAI 응답이 비었거나 유효하지 않습니다.");
         }
+
+        // 최종 번역된 텍스트 반환
         return response.getChoices().get(0).getMessage().getContent();
     }
 
