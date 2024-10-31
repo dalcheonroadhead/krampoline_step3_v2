@@ -760,7 +760,7 @@ public class ChatGPTService {
         HttpEntity<ChatRequest> requestEntity = new HttpEntity<>(chatRequest, headers);
 
         // 3. 프록시가 설정된 RestTemplate 사용
-        RestTemplate restTemplate = new RestTemplate(); // chatGPTConfig.restTemplate();
+        RestTemplate restTemplate =  chatGPTConfig.restTemplate();
 
         // API 호출 및 응답 받기
         ChatResponse response = restTemplate.postForObject(url, requestEntity, ChatResponse.class);
