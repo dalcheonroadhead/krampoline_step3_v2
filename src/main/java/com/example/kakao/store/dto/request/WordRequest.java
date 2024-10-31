@@ -27,13 +27,9 @@ public class WordRequest {
     }
 
     private boolean isKoreanOnly(String input) {
-        for (char c : input.toCharArray()) {
-            if (!(c >= 0xAC00 && c <= 0xD7A3)) {
-                // 한글이 아닌 문자가 발견되면 false 반환
-                return false;
-            }
-        }
+        // 한글이 아닌 문자가 발견되면 false 반환
+        return input.charAt(0) >= 0xAC00 && input.charAt(0) <= 0xD7A3;
+
         // 모든 문자가 한글이면 true 반환
-        return true;
     }
 }
