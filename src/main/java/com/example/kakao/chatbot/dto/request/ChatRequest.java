@@ -13,10 +13,9 @@ public class ChatRequest {
     private int n;
     private int max_tokens;
 
-    public ChatRequest(String model, String prompt, String role) {
+    public ChatRequest(String model,List<ChatMessage> messages ) {
         this.model = model;
-        this.messages = new ArrayList<ChatMessage>();
-        this.messages.add(new ChatMessage(role, prompt));
+        this.messages = messages;
         this.n = 1;
         this.max_tokens = 100;
     }
