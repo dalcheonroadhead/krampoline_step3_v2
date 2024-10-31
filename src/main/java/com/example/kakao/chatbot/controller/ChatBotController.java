@@ -21,5 +21,10 @@ public class ChatBotController {
         return ResponseEntity.ok(chatGPTService.Prompt(userRequest.getQuestion(),userRequest.getLang_code()));
     }
 
+    @PostMapping("/teaching")
+    public ResponseEntity<String> teachGPT(@RequestBody UserRequest userRequest) {
+        return ResponseEntity.ok(chatGPTService.teaching(userRequest.getQuestion()));
+    }
+
 
 }
