@@ -731,35 +731,36 @@ public class ChatGPTService {
         messages.add(new ChatMessage("assistant", "के यो नवीनतम मोडल हो? -> 최신 모델이우꽈? (lang_code: ne)"));
         messages.add(new ChatMessage("assistant", "के यसमा कुनै त्रुटि छ? -> 결함 있수과? (lang_code: ne)"));
 
-
-        // 사용자 입력을 기반으로 번역 요청 생성
+        String targetLanguage = "";
         switch (language) {
             case "ko":
-                // 한국어 -> 제주도 방언 번역
-                messages.add(new ChatMessage("user", "Translate this to Jeju dialect: " + prompt));
+                targetLanguage = "제주도 방언";
                 break;
             case "cn":
-                // 입력된 텍스트를 중국어로 번역
-                messages.add(new ChatMessage("user", "Translate this to Chinese: " + prompt));
+                targetLanguage = "중국어";
                 break;
             case "en":
-                // 입력된 텍스트를 영어로 번역
-                messages.add(new ChatMessage("user", "Translate this to English: " + prompt));
+                targetLanguage = "영어";
                 break;
             case "ne":
-                // 입력된 텍스트를 네팔어로 번역
-                messages.add(new ChatMessage("user", "Translate this to Nepali: " + prompt));
+                targetLanguage = "네팔어";
                 break;
             default:
                 throw new IllegalArgumentException("지원하지 않는 언어 코드입니다: " + language);
         }
+
+// 시스템 메시지로 번역 지시 추가
+        messages.add(new ChatMessage("system", "사용자의 입력을 " + targetLanguage + "로 번역하되, 번역된 문장만 출력하세요. 추가적인 설명이나 사족은 붙이지 마세요."));
+
+// 사용자 메시지 추가
+        messages.add(new ChatMessage("user", prompt));
 
         // 2. 요청 객체 생성
         ChatRequest chatRequest = new ChatRequest(model, messages);
         HttpEntity<ChatRequest> requestEntity = new HttpEntity<>(chatRequest, headers);
 
         // 3. 프록시가 설정된 RestTemplate 사용
-        RestTemplate restTemplate = chatGPTConfig.restTemplate();
+        RestTemplate restTemplate = new RestTemplate(); // chatGPTConfig.restTemplate();
 
         // API 호출 및 응답 받기
         ChatResponse response = restTemplate.postForObject(url, requestEntity, ChatResponse.class);
