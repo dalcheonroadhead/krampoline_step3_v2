@@ -24,7 +24,7 @@ openai:
   model: gpt-3.5-turbo
   api:
     url: https://api.openai.com/v1/chat/completions
-    key: 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
+    key: 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
 logging:
   level:
     '[com.example.kakao]': INFO
