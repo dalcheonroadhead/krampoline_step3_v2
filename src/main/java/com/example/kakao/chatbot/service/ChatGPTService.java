@@ -27,7 +27,21 @@ public class ChatGPTService {
         // 1. 헤더 만들기
         HttpHeaders headers = chatGPTConfig.httpHeaders();  // 필요한 헤더 구성 (e.g. Authorization)
 
-        prompt += "lang_code: " + language;
+        // 언어 코드에 따른 프롬프트 변경 로직 추가
+        switch (language) {
+            case "ko":
+                prompt = "Translate this text to Korean and then convert it to Jeju dialect: " + prompt;
+                break;
+            case "cn":
+                prompt = "Translate this text to Chinese: " + prompt;
+                break;
+            case "ne":
+                prompt = "Translate this text to Nepali: " + prompt;
+                break;
+            default:
+                log.error("지원하지 않는 언어 코드: " + language);
+                throw new RuntimeException("지원하지 않는 언어 코드입니다.");
+        }
 
         // 2. 요청 객체 생성
         ChatRequest chatRequest = new ChatRequest(model, prompt, "user");
