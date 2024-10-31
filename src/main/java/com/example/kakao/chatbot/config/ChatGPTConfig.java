@@ -24,7 +24,7 @@ public class ChatGPTConfig {
     @Bean
     public RestTemplate restTemplate(){
         // 프록시 설정
-        HttpHost proxy = new HttpHost("krmp-proxy.9rum.cc",3128,"http");
+        HttpHost proxy = new HttpHost("krmp-proxy.9rum.cc", 3128, "http");
         // 프록시를 사용한 HttpClient 생성
         CloseableHttpClient httpClient = HttpClients.custom()
             .setProxy(proxy)
