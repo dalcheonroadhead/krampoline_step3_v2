@@ -679,57 +679,7 @@ public class ChatGPTService {
         messages.add(new ChatMessage("assistant", "这是最新款吗？ -> 최신 모델이우꽈? (lang_code: cn)"));
         messages.add(new ChatMessage("assistant", "有任何缺陷吗？ -> 결함 있수과? (lang_code: cn)"));
 
-        messages.add(new ChatMessage("assistant", "यो कति हो? -> 얼마우꽈? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले केही छुट दिन सक्नुहुन्छ? -> 깎아줍서? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "यो त धेरै महँगो छ। -> 너무 비싸우다. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के मूल्य कम गर्न सक्नुहुन्छ? -> 값 좀 내립서? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "यदि मूल्य घटाउनुभयो भने म किन्छु। -> 값 내리면 살게마씀. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "तपाईंको सबैभन्दा कम मूल्य कति हो? -> 젤 싸게 얼마우꽈? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "मैले अरू ठाउँमा सस्तो देखेको छु। -> 다른 데서 더 싸게 봤수다. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले अलि बढी दिन सक्नुहुन्छ? -> 좀 더 얹어주게마씀. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के यो अन्तिम मूल्य हो? -> 이거 마지막 값우꽈? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "धेरै किन्दा छुट हुन्छ? -> 많이 사면 할인됩주? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "यो मेरो बजेट भन्दा बाहिर छ। -> 내 예산 밖이우다. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "मलाई सोच्न समय चाहिन्छ। -> 생각 좀 해봐야 하우다. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले क्रेडिट कार्ड लिनुहुन्छ? -> 카드 받수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के म नगद तिर्न सक्छु? -> 현금으로 지불해도 됩주? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के यसमा वारेन्टी छ? -> 보증서 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले निःशुल्क डेलिभरी गर्नुहुन्छ? -> 무료 배송 해줍수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "तपाईंले कहिले डेलिभर गर्न सक्नुहुन्छ? -> 언제 배달해줍수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "यदि मलाई मन परेन भने के फिर्ता गर्न सक्छु? -> 마음에 안 들면 반품 되우꽈? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "म सोच्छु र पछि आउँछु। -> 생각해보고 다시 올게마씀. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले यो निःशुल्क दिन सक्नुहुन्छ? -> 이거 공짜로 넣어줄 수 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के कुनै विशेष अफर छ? -> 특별 할인 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "म नियमित ग्राहक हुँ। -> 단골 손님이우다. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "कृपया राम्रो मूल्य दिनुहोस्। -> 좋은 가격으로 주게마씀. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के कर समावेश छ? -> 세금 포함됐수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले अन्य रङहरू छन्? -> 다른 색상 볼 수 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "मूल्य घटाएमा म थप किन्छु। -> 값 내리면 더 살게마씀. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के यो वास्तविक हो? -> 이거 진짜우꽈? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले रसिद दिन सक्नुहुन्छ? -> 영수증 써줄 수 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "यसको सामग्री के हो? -> 재질이 뭐우꽈? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के यसमा सहायक उपकरणहरू समावेश छन्? -> 부속품도 같이 오우꽈? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले मेरो लागि राखिदिन सक्नुहुन्छ? -> 이거 잡아둘 수 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के म आधा अहिले र आधा पछि तिर्न सक्छु? -> 지금 반 내고 나중에 반 내도 됩주? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "विद्यार्थीहरूको लागि छुट छ? -> 학생 할인 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले थोक मूल्य दिनुहुन्छ? -> 도매 가격 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के म यसलाई लगाएर हेर्न सक्छु? -> 입어봐도 됩주? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "यो मलाई ठीक मिलेन। -> 잘 안 맞우다. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के ठूलो साइज छ? -> 더 큰 사이즈 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "म यसलाई लिन्छु। -> 이거 살게마씀. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंसँग सानो पैसा छ? -> 거스름돈 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के यो हातले बनाइएको हो? -> 이거 수제품이우꽈? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले सस्तो चीज देखाउन सक्नुहुन्छ? -> 더 싼 거 보여줄 수 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "मूल्यमा के समावेश छ? -> 가격에 뭐가 포함됐수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के अहिले बिक्रीमा छ? -> 세일 중이우꽈? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के म रसिद पाउन सक्छु? -> 영수증 받을 수 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के कुनै सदस्यता कार्यक्रम छ? -> 멤버십 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "नगद तिर्दा छुट छ? -> 현금으로 하면 할인됩주? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले यो मूल्य मिलाउन सक्नुहुन्छ? -> 이 가격 맞춰줄 수 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "म इन्टरनेटमा सस्तो पाउन सक्छु। -> 온라인에서 더 싸게 살 수 있수다. (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के तपाईंले उनीहरूको मूल्य भन्दा कम दिन सक्नुहुन्छ? -> 그쪽 가격보다 싸게 해줄 수 있수과? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के यो नवीनतम मोडल हो? -> 최신 모델이우꽈? (lang_code: ne)"));
-        messages.add(new ChatMessage("assistant", "के यसमा कुनै त्रुटि छ? -> 결함 있수과? (lang_code: ne)"));
+
 
         String targetLanguage = "";
         switch (language) {
