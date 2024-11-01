@@ -5,7 +5,9 @@ import com.example.kakao.chatbot.dto.ChatMessage;
 import com.example.kakao.chatbot.dto.request.ChatRequest;
 import com.example.kakao.chatbot.dto.response.ChatResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +28,153 @@ public class ChatGPTService {
     @Value("${openai.api.url}")
     private String url;
 
+    private static Map<String, String> translationMap = new HashMap<>();
+
+    static {
+        // 번역 맵 초기화
+        translationMap.put("안녕하세요", "혼저옵서예");
+        translationMap.put("감사합니다", "고맙수다");
+        translationMap.put("미안합니다", "죄송하우다");
+        translationMap.put("어디가세요?", "어드레 감수과?");
+        translationMap.put("이름이뭐예요?", "농 이름 뭐꽈?");
+        translationMap.put("잘지내세요", "잘 지내수과?");
+        translationMap.put("몇살이에요", "몇 살이우꽈?");
+        translationMap.put("맛있어요", "맛조수다");
+        translationMap.put("좋아요", "조쿠다");
+        translationMap.put("싫어요", "싫수다");
+        translationMap.put("얼마예요", "얼마우꽈?");
+        translationMap.put("도와주세요", "도와주게마씀");
+        translationMap.put("축하합니다", "축하하우다");
+        translationMap.put("안녕히계세요", "안녕히 계시우다");
+        translationMap.put("안녕히가세요", "안녕히 가시우다");
+        translationMap.put("잘먹었습니다", "맛있게 먹었수다");
+        translationMap.put("어디에살아요?", "어드레 살우꽈?");
+        translationMap.put("내일봐요", "내일 보게마씀");
+        translationMap.put("사랑해요", "사랑하우다");
+        translationMap.put("잠시만요", "잠깐만 기달리우다");
+        translationMap.put("무슨일이에요?", "무슨 일이우꽈?");
+        translationMap.put("괜찮아요?", "괜찮수과?");
+        translationMap.put("좋은아침입니다", "조은 아침이우다");
+        translationMap.put("잘자요", "잘 자우다");
+        translationMap.put("행운을빌어요", "행운 빌어주게마씀");
+        translationMap.put("오랜만이에요", "오랜만이우다");
+        translationMap.put("천천히말해주세요", "천천히 말해주게마씀");
+        translationMap.put("다시말해주세요", "다시 말해주게마씀");
+        translationMap.put("잘이해가안돼요", "잘 모르겠수다");
+        translationMap.put("알겠어요", "알았수다");
+        translationMap.put("괜찮아요", "괜찮수다");
+        translationMap.put("이거얼마예요?", "이거 얼마우꽈?");
+        translationMap.put("사진찍어도돼요?", "사진 찍어도 됩주?");
+        translationMap.put("화장실이어디예요?", "화장실 어드레우꽈?");
+        translationMap.put("배고파요", "배고프우다");
+        translationMap.put("목말라요", "목말르우다");
+        translationMap.put("즐거운시간보내세요", "즐거운 시간 보내게마씀");
+        translationMap.put("여기앉아도되나요?", "여그 앉아도 됩주?");
+        translationMap.put("몇시예요?", "몇 시우꽈?");
+        translationMap.put("길을잃었어요", "길을 잃었수다");
+        translationMap.put("이것은뭐예요?", "이거 뭐우꽈?");
+        translationMap.put("어디에서왔어요?", "어드레서 왔수과?");
+        translationMap.put("지금뭐하고있어요?", "이시방 뭐 햄수과?");
+        translationMap.put("전화번호가뭐예요?", "전화번호 뭐우꽈?");
+        translationMap.put("언제출발해요?", "언제 출발합주?");
+        translationMap.put("다음에또봐요", "다음에 또 보게마씀");
+        translationMap.put("지금가야해요", "이시방 가야 하우다");
+        translationMap.put("배가아파요", "배 아프우다");
+        translationMap.put("기분이좋아요", "기분 조쿠다");
+        translationMap.put("이해했어요", "이해했수다");
+        translationMap.put("모르겠어요", "모르겠수다");
+        translationMap.put("날씨가좋네요", "날씨 조쿠다");
+        translationMap.put("비가오고있어요", "비 오곡수다");
+        translationMap.put("눈이와요", "눈 오곡수다");
+        translationMap.put("더워요", "덥수다");
+        translationMap.put("추워요", "춥수다");
+        translationMap.put("시작합시다", "시작합주");
+        translationMap.put("잠을잘잤어요?", "잠 잘 잤수과?");
+        translationMap.put("어떻게지내요?", "어덜 지냄수과?");
+        translationMap.put("시간있어요?", "시간 있수과?");
+        translationMap.put("죄송합니다", "죄송하우다");
+        translationMap.put("문제없어요", "문제 없수다");
+        translationMap.put("잘했어요", "잘 했수다");
+        translationMap.put("좋은생각이에요", "조은 생각이우다");
+        translationMap.put("여기있어요", "여그 있수다");
+        translationMap.put("안돼요", "안됩주");
+        translationMap.put("괜찮습니다", "괜찮수다");
+        translationMap.put("같이가요", "같이 갑주");
+        translationMap.put("축하해요", "축하하우다");
+        translationMap.put("앉으세요", "앉으십주");
+        translationMap.put("일어나세요", "일어나십주");
+        translationMap.put("조심하세요", "조심하십주");
+        translationMap.put("좋은하루되세요", "조은 하루 되게마씀");
+        translationMap.put("즐거웠어요", "즐거웠수다");
+        translationMap.put("다음에만나요", "다음에 만나게마씀");
+        translationMap.put("어떻게생각해요?", "어덜 생각햄수과?");
+        translationMap.put("도와드릴까요?", "도와드릴수과?");
+        translationMap.put("예약했어요", "예약했수다");
+        translationMap.put("맛있게드세요", "맛있게 드십주");
+        translationMap.put("이쪽으로오세요", "이쪽으로 오십주");
+        translationMap.put("사진을찍어주세요", "사진 찍어주게마씀");
+        translationMap.put("즐거운여행되세요", "즐거운 여행 되게마씀");
+        translationMap.put("휴가잘보내세요", "휴가 잘 보내게마씀");
+        translationMap.put("어떤것을추천하세요?", "어떤 거 추천하십주?");
+        translationMap.put("커피한잔주세요", "커피 한 잔 주게마씀");
+        translationMap.put("계산서주세요", "계산서 주게마씀");
+        translationMap.put("시간이없어요", "시간 없수다");
+        translationMap.put("전화해주세요", "전화해주게마씀");
+        translationMap.put("기다려주세요", "기다려주게마씀");
+        translationMap.put("얼마나걸려요?", "얼마나 걸립주?");
+        translationMap.put("예약하고싶어요", "예약하고 싶수다");
+        translationMap.put("휴대폰배터리가없어요", "휴대폰 배터리 없수다");
+        translationMap.put("충전해도되나요?", "충전해도 됩주?");
+        translationMap.put("다음역은어디예요?", "다음 역 어드레우꽈?");
+        translationMap.put("버스정류장이어디예요?", "버스 정류장 어드레우꽈?");
+        translationMap.put("택시를불러주세요", "택시 불러주게마씀");
+        translationMap.put("도착하면알려주세요", "도착하면 알려주게마씀");
+        translationMap.put("문을열어주세요", "문 열어주게마씀");
+        translationMap.put("사진찍지마세요", "사진 찍지 마주");
+        translationMap.put("여기는금연구역이에요", "여그는 금연구역이우다");
+        translationMap.put("화재경보기가울리고있어요", "화재 경보기 울곡수다");
+        translationMap.put("비상구는어디예요?", "비상구 어드레우꽈?");
+        translationMap.put("행복하세요", "행복하십주");
+        translationMap.put("즐거운주말보내세요", "즐거운 주말 보내게마씀");
+        translationMap.put("새해복많이받으세요", "새해 복 많이 받으게마씀");
+        translationMap.put("메리크리스마스", "메리 크리스마스 하우다");
+        translationMap.put("생일축하해요", "생일 축하하우다");
+        translationMap.put("건배합시다", "건배합주");
+        translationMap.put("잘들으세요", "잘 들으십주");
+        translationMap.put("시험잘보세요", "시험 잘 보게마씀");
+        translationMap.put("힘내세요", "힘내십주");
+        translationMap.put("연락해주세요", "연락해주게마씀");
+        translationMap.put("늦어서죄송해요", "늦어서 죄송하우다");
+        translationMap.put("걱정하지마세요", "걱정하지 마주");
+        translationMap.put("물좀주세요", "물 좀 주게마씀");
+        translationMap.put("반가워요", "반갑수다");
+        translationMap.put("여기뭐가있나요?", "여그 뭐 있수과?");
+        translationMap.put("사진을보여주세요", "사진 보여주게마씀");
+        translationMap.put("메일을보내주세요", "메일 보내주게마씀");
+        // 추가된 영어 문장들
+        translationMap.put("Hello", "혼저옵서예");
+        translationMap.put("Thankyou", "고맙수다");
+        translationMap.put("I'msorry", "죄송하우다");
+        translationMap.put("Goodmorning", "조은 아침이우다");
+        translationMap.put("Goodnight", "잘 자우다");
+        translationMap.put("Howareyou?", "잘 지내수과?");
+        translationMap.put("Whatisyourname?", "농 이름 뭐꽈?");
+        translationMap.put("Whereareyoufrom?", "어드레서 왔수과?");
+        translationMap.put("Nicetomeetyou", "반갑수다");
+        translationMap.put("Seeyoulater", "또 보게마씀");
+        // 나머지 문장들도 동일한 방식으로 추가
+    }
+
     public String Prompt(String prompt, String language) {
+
+        String sanitizedPrompt = prompt.replaceAll("\\s+", "");
+        for (Map.Entry<String, String> entry : translationMap.entrySet()) {
+            String key = entry.getKey();
+            String sanitizedKey = key.replaceAll("\\s+", "");
+            if (sanitizedKey.equalsIgnoreCase(sanitizedPrompt)) {
+                return entry.getValue();
+            }
+        }
         // 1. 헤더 만들기
         HttpHeaders headers = chatGPTConfig.httpHeaders();  // 필요한 헤더 구성 (e.g. Authorization)
 
